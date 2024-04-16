@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private float speed = 5;
+    private float speed = 2;
     private float jumpforce = 5.5f;
     private float gravity = 9.8f;
     private float _fallVelocity = 0;
@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void FixedUpdate()
@@ -31,6 +33,8 @@ public class PlayerController : MonoBehaviour
         Jump();
 
         Walk_Move();
+
+        Run();
     }
 
     //decoding_
@@ -42,25 +46,25 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            _VectorMove += transform.forward;
+            _VectorMove += transform.forward * speed;
             run_direction = 1;
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            _VectorMove -= transform.forward;
+            _VectorMove -= transform.forward * speed;
             run_direction = 2;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            _VectorMove += transform.right;
+            _VectorMove += transform.right * speed;
             run_direction = 3;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            _VectorMove -= transform.right;
+            _VectorMove -= transform.right * speed;
             run_direction = 4;
         }
 
@@ -92,6 +96,21 @@ public class PlayerController : MonoBehaviour
         _characterController.Move(Vector3.down * _fallVelocity * Time.fixedDeltaTime);
 
         _characterController.Move(_VectorMove * speed * Time.fixedDeltaTime);
+    }
+
+    private void Run()
+    {
+        var food = GetComponent<HP_Food_Script>().food;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift)  && food > 0)
+        {
+            speed *= 1.5f;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift) || food <= 0)
+        {
+            speed = 2;
+        }
     }
 
     //_decoding
