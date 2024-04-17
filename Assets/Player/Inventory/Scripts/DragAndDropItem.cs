@@ -51,20 +51,17 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         //Поставить DraggableObject обратно в свой старый слот
         transform.SetParent(oldSlot.transform);
         transform.position = oldSlot.transform.position;
-        //Если мышка отпущена над объектом по имени Inventory, то...
-        if (eventData.pointerCurrentRaycast.gameObject.name == "Inventory")
+        if (Input.GetMouseButtonUp(0))
         {
-            // Выброс объектов из инвентаря - Спавним префаб обекта перед персонажем
-            GameObject itemObject = Instantiate(oldSlot.item.ItemObject, player.position + Vector3.up + player.forward, Quaternion.identity);
-            // Устанавливаем количество объектов такое какое было в слоте
-            itemObject.GetComponent<WTI>().amount = oldSlot.amount;
-            // убираем значения InventorySlot
-            NullifySlotData();
-        }
-        else if (eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>() != null)
-        {
-            //Перемещаем данные из одного слота в другой
-            ExchangeSlotData(eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>());
+           if (eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>() != null)
+           {
+                // Выброс объектов из инвентаря - Спавним префаб обекта перед персонажем
+               GameObject itemObject = Instantiate(oldSlot.item.ItemObject, player.position + Vector3.up + player.forward, Quaternion.identity);
+                // Устанавливаем количество объектов такое какое было в слоте
+               itemObject.GetComponent<WTI>().amount = oldSlot.amount;
+               // убираем значения InventorySlot
+               NullifySlotData();
+           }
         }
 
     }
@@ -76,49 +73,6 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         oldSlot.isEmpty = true;
         oldSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 0);
         oldSlot.iconGO.GetComponent<Image>().sprite = null;
-        oldSlot.itemAmount.text = "";
-    }
-    void ExchangeSlotData(InventorySlot newSlot)
-    {
-        // Временно храним данные newSlot в отдельных переменных
-        ItemScriptable item = newSlot.item;
-        int amount = newSlot.amount;
-        bool isEmpty = newSlot.isEmpty;
-        GameObject iconGO = newSlot.iconGO;
-        TMP_Text itemAmountText = newSlot.itemAmount;
-
-        // Заменяем значения newSlot на значения oldSlot
-        newSlot.item = oldSlot.item;
-        newSlot.amount = oldSlot.amount;
-        if (oldSlot.isEmpty == false)
-        {
-            newSlot.SetIcon(oldSlot.iconGO.GetComponent<Image>().sprite);
-            newSlot.itemAmount.text = oldSlot.amount.ToString();
-        }
-        else
-        {
-            newSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-            newSlot.iconGO.GetComponent<Image>().sprite = null;
-            newSlot.itemAmount.text = "";
-        }
-
-        newSlot.isEmpty = oldSlot.isEmpty;
-
-        // Заменяем значения oldSlot на значения newSlot сохраненные в переменных
-        oldSlot.item = item;
-        oldSlot.amount = amount;
-        if (isEmpty == false)
-        {
-            oldSlot.SetIcon(iconGO.GetComponent<Image>().sprite);
-            oldSlot.itemAmount.text = amount.ToString();
-        }
-        else
-        {
-            oldSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-            oldSlot.iconGO.GetComponent<Image>().sprite = null;
-            oldSlot.itemAmount.text = "";
-        }
-
-        oldSlot.isEmpty = isEmpty;
+        oldSlot.itemAmount.text = "0";
     }
 }
