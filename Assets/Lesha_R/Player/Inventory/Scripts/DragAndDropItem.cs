@@ -51,7 +51,7 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         //Поставить DraggableObject обратно в свой старый слот
         transform.SetParent(oldSlot.transform);
         transform.position = oldSlot.transform.position;
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(1))
         {
            if (eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>() != null)
            {
@@ -62,6 +62,20 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
                // убираем значения InventorySlot
                NullifySlotData();
            }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (oldSlot.isEmpty)
+                return;
+            // Делаем картинку опять не прозрачной
+            GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1f);
+            // И чтобы мышка опять могла ее засечь
+            GetComponentInChildren<Image>().raycastTarget = true;
+
+            //Поставить DraggableObject обратно в свой старый слот
+            transform.SetParent(oldSlot.transform);
+            transform.position = oldSlot.transform.position;
         }
 
     }

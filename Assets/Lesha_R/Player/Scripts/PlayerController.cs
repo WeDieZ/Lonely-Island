@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private float gravity = 9.8f;
     private float _fallVelocity = 0;
     private int can_jump = 1;
+    public bool IsAbleToMove = true;
 
     public Animator _animator;
     private CharacterController _characterController;
@@ -39,48 +40,53 @@ public class PlayerController : MonoBehaviour
 
     //decoding_
 
-    private void Walk_Move()
+    public void Walk_Move()
     {
         _VectorMove = Vector3.zero;
         var run_direction = 0;
 
-        if (Input.GetKey(KeyCode.W))
+        if (IsAbleToMove == true)
         {
-            _VectorMove += transform.forward * speed;
-            run_direction = 1;
-        }
+            if (Input.GetKey(KeyCode.W))
+            {
+                _VectorMove += transform.forward * speed;
+                run_direction = 1;
+            }
 
-        if (Input.GetKey(KeyCode.S))
-        {
-            _VectorMove -= transform.forward * speed;
-            run_direction = 2;
-        }
+            if (Input.GetKey(KeyCode.S))
+            {
+                _VectorMove -= transform.forward * speed;
+                run_direction = 2;
+            }
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            _VectorMove += transform.right * speed;
-            run_direction = 3;
-        }
+            if (Input.GetKey(KeyCode.D))
+            {
+                _VectorMove += transform.right * speed;
+                run_direction = 3;
+            }
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            _VectorMove -= transform.right * speed;
-            run_direction = 4;
+            if (Input.GetKey(KeyCode.A))
+            {
+                _VectorMove -= transform.right * speed;
+                run_direction = 4;
+            }
         }
-
         _animator.SetInteger("run_direction", run_direction);
     }
 
-    private void Jump()
+    public void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && can_jump > 0)
+        if (IsAbleToMove == true)
         {
-            can_jump -= 1;
-            _fallVelocity = -jumpforce;
+            if (Input.GetKeyDown(KeyCode.Space) && can_jump > 0 && (IsAbleToMove = true))
+            {
+                can_jump -= 1;
+                _fallVelocity = -jumpforce;
+            }
         }
     }
 
-    private void Fall()
+    public void Fall()
     {
         _fallVelocity += gravity * Time.fixedDeltaTime;
 
@@ -98,7 +104,7 @@ public class PlayerController : MonoBehaviour
         _characterController.Move(_VectorMove * speed * Time.fixedDeltaTime);
     }
 
-    private void Run()
+    public void Run()
     {
         var food = GetComponent<HP_Food_Script>().food;
 
@@ -112,6 +118,5 @@ public class PlayerController : MonoBehaviour
             speed = 2;
         }
     }
-
     //_decoding
 }
