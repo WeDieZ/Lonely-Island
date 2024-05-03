@@ -51,33 +51,22 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         //Поставить DraggableObject обратно в свой старый слот
         transform.SetParent(oldSlot.transform);
         transform.position = oldSlot.transform.position;
-        if (Input.GetMouseButtonUp(1))
+        //Если мышка отпущена над объектом по имени UIPanel, то...
+        if (eventData.pointerCurrentRaycast.gameObject.name == "UIPanel")
         {
-           if (eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>() != null)
-           {
-                // Выброс объектов из инвентаря - Спавним префаб обекта перед персонажем
-               GameObject itemObject = Instantiate(oldSlot.item.ItemObject, player.position + Vector3.up + player.forward, Quaternion.identity);
-                // Устанавливаем количество объектов такое какое было в слоте
-               itemObject.GetComponent<WTI>().amount = oldSlot.amount;
-               // убираем значения InventorySlot
-               NullifySlotData();
-           }
+            // Выброс объектов из инвентаря - Спавним префаб обекта перед персонажем
+            GameObject itemObject = Instantiate(oldSlot.item.itemPrefab, player.position + Vector3.up + player.forward, Quaternion.identity);
+            // Устанавливаем количество объектов такое какое было в слоте
+            itemObject.GetComponent<Item>().amount = oldSlot.amount;
+            // убираем значения InventorySlot
+            NullifySlotData();
         }
-
-        if (Input.GetMouseButtonDown(0))
+        else if(eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>() != null)
         {
-            if (oldSlot.isEmpty)
-                return;
-            // Делаем картинку опять не прозрачной
-            GetComponentInChildren<Image>().color = new Color(1, 1, 1, 1f);
-            // И чтобы мышка опять могла ее засечь
-            GetComponentInChildren<Image>().raycastTarget = true;
-
-            //Поставить DraggableObject обратно в свой старый слот
-            transform.SetParent(oldSlot.transform);
-            transform.position = oldSlot.transform.position;
+            //Перемещаем данные из одного слота в другой
+            ExchangeSlotData(eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>());
         }
-
+       
     }
     void NullifySlotData()
     {
@@ -87,6 +76,49 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         oldSlot.isEmpty = true;
         oldSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 0);
         oldSlot.iconGO.GetComponent<Image>().sprite = null;
-        oldSlot.itemAmount.text = "0";
+        oldSlot.itemAmountText.text = "0";
+    }
+    void ExchangeSlotData(InventorySlot newSlot)
+    {
+        // Временно храним данные newSlot в отдельных переменных
+        ItemScriptableObject item = newSlot.item;
+        int amount = newSlot.amount;
+        bool isEmpty = newSlot.isEmpty;
+        GameObject iconGO = newSlot.iconGO;
+        TMP_Text itemAmountText = newSlot.itemAmountText;
+
+        // Заменяем значения newSlot на значения oldSlot
+        newSlot.item = oldSlot.item;
+        newSlot.amount = oldSlot.amount;
+        if (oldSlot.isEmpty == false)
+        {
+            newSlot.SetIcon(oldSlot.iconGO.GetComponent<Image>().sprite);
+            newSlot.itemAmountText.text = oldSlot.amount.ToString();
+        }
+        else
+        {
+            newSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            newSlot.iconGO.GetComponent<Image>().sprite = null;
+            newSlot.itemAmountText.text = "";
+        }
+        
+        newSlot.isEmpty = oldSlot.isEmpty;
+
+        // Заменяем значения oldSlot на значения newSlot сохраненные в переменных
+        oldSlot.item = item;
+        oldSlot.amount = amount;
+        if (isEmpty == false)
+        {
+            oldSlot.SetIcon(iconGO.GetComponent<Image>().sprite);
+            oldSlot.itemAmountText.text = amount.ToString();
+        }
+        else
+        {
+            oldSlot.iconGO.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+            oldSlot.iconGO.GetComponent<Image>().sprite = null;
+            oldSlot.itemAmountText.text = "0";
+        }
+        
+        oldSlot.isEmpty = isEmpty;
     }
 }

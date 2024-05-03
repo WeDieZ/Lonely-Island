@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a870974b1c1b9584c891554519f6d451, type: 3}
+  m_Script: {fileID: 11500000, guid: a73bea6b3473012428adec8e4a46c837, type: 3}
   m_Name: Banana
   m_EditorClassIdentifier: 
-  ItemObject: {fileID: 1000012997751318, guid: 0550765fb22bb954ea0412b7153ff417, type: 3}
-  itemType: 1
-  ItemName: Banana
-  maxAmount: 3
-  itemDescription: 
+  itemName: Banana
+  maximumAmount: 55
+  itemPrefab: {fileID: 1000012997751318, guid: 0550765fb22bb954ea0412b7153ff417, type: 3}
   icon: {fileID: 21300020, guid: 37607ec1aab56e349af84a980f685a4b, type: 3}
-  foodAmount: 10
+  itemType: 1
+  itemDescription: 
+  healAmount: 0
