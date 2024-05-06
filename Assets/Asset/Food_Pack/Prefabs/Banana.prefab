@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 23000012911803522}
   - component: {fileID: 4910400300227745755}
   - component: {fileID: 3625141833824849464}
-  - component: {fileID: 5582681558215841257}
+  - component: {fileID: 1971210759117718626}
   m_Layer: 0
   m_Name: Banana
   m_TagString: Untagged
@@ -111,7 +111,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.07280632
   m_Center: {x: 0, y: -0.0000000018626451, z: 0}
---- !u!114 &5582681558215841257
+--- !u!114 &1971210759117718626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,8 +120,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012997751318}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4744a6cac9d5394ebf26c30a428fbe1, type: 3}
+  m_Script: {fileID: 11500000, guid: ca23b4421ae9cbe4b9da3b94632944b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: a5b2a19c77012bc47a07d42d5ea01bbb, type: 2}
+  item: {fileID: 11400000, guid: 67a80adcd97058f4fbb8e1f6a9490327, type: 2}
   amount: 1

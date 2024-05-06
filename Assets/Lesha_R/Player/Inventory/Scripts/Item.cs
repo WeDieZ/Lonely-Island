@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WTI : MonoBehaviour
+public class Item : MonoBehaviour
 {
-    public ItemScriptable item;
+    public ItemScriptableObject item;
     public int amount;
 }

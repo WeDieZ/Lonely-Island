@@ -4,59 +4,61 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
+    public GameObject UIPanel;
+    public GameObject crosshair;
     public Transform inventoryPanel;
     public List<InventorySlot> slots = new List<InventorySlot>();
-    public GameObject Inventory_Menu;
-    public bool isOpen;
-    public Camera mainCamera;
+    public bool isOpened;
     public float reachDistance = 3f;
-    public GameObject AIM;
-    public GameObject CamAxis;
+    private Camera mainCamera;
+    public GameObject _player;
 
+    // Start is called before the first frame update
     private void Awake()
     {
-        Inventory_Menu.SetActive(true);
+        UIPanel.SetActive(true);
     }
-
-
     void Start()
     {
-        for (int i = 0; i < inventoryPanel.childCount; i++)
+        mainCamera = Camera.main;
+        for(int i = 0; i < inventoryPanel.childCount; i++)
         {
-            if (inventoryPanel.GetChild(i).GetComponent<InventorySlot>() != null)
+            if(inventoryPanel.GetChild(i).GetComponent<InventorySlot>() != null)
             {
                 slots.Add(inventoryPanel.GetChild(i).GetComponent<InventorySlot>());
             }
         }
-
-        Inventory_Menu.SetActive(false);
+        UIPanel.SetActive(false);
     }
 
+    // Update is called once per frame
     void Update()
     {
-        var RotateCam = CamAxis.GetComponent<CameraRotation>();
-
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            isOpen = !isOpen;
-            if (isOpen == true)
+            var CameraManager = _player.GetComponent<CameraRotation>();
+            isOpened = !isOpened;
+            if (isOpened)
             {
-                Inventory_Menu.SetActive (true);
-                AIM.SetActive(false);
-                RotateCam.enabled = false;
+                UIPanel.SetActive(true);
+                crosshair.SetActive(false);
+                // Прекрепляем курсор к середине экрана
                 Cursor.lockState = CursorLockMode.None;
+                // и делаем его невидимым
                 Cursor.visible = true;
+                CameraManager.enabled = false;
             }
             else
             {
-                Inventory_Menu.SetActive(false);
-                AIM.SetActive(true);
-                RotateCam.enabled = true;
+                UIPanel.SetActive(false);
+                crosshair.SetActive(true);
+                // Прекрепляем курсор к середине экрана
                 Cursor.lockState = CursorLockMode.Locked;
+                // и делаем его невидимым
                 Cursor.visible = false;
+                CameraManager.enabled = true;
             }
         }
-
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -64,38 +66,38 @@ public class InventoryManager : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, reachDistance))
             {
-                if (hit.collider.gameObject.GetComponent<WTI>() != null)
+                if (hit.collider.gameObject.GetComponent<Item>() != null)
                 {
-                    AddItem(hit.collider.gameObject.GetComponent<WTI>().item, hit.collider.gameObject.GetComponent<WTI>().amount);
+                    AddItem(hit.collider.gameObject.GetComponent<Item>().item, hit.collider.gameObject.GetComponent<Item>().amount);
                     Destroy(hit.collider.gameObject);
                 }
             }
         }
     }
-
-    private void AddItem(ItemScriptable _item, int _amount)
+    private void AddItem(ItemScriptableObject _item, int _amount)
     {
         foreach (InventorySlot slot in slots)
         {
+            // В слоте уже имеется этот предмет
             if (slot.item == _item)
             {
-                if (slot.amount + _amount <= _item.maxAmount)
-                {
-                slot.amount += _amount;
-                slot.itemAmount.text = slot.amount.ToString();
-                return;
+                if (slot.amount + _amount <= _item.maximumAmount) {
+                    slot.amount += _amount;
+                    slot.itemAmountText.text = slot.amount.ToString();
+                    return;
                 }
+                break;
             }
         }
         foreach (InventorySlot slot in slots)
         {
-            if (slot.isEmpty == true)
+            if(slot.isEmpty == true)
             {
                 slot.item = _item;
                 slot.amount = _amount;
                 slot.isEmpty = false;
                 slot.SetIcon(_item.icon);
-                slot.itemAmount.text = _amount.ToString();
+                slot.itemAmountText.text = _amount.ToString();
                 break;
             }
         }
