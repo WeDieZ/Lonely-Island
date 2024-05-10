@@ -52,7 +52,7 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         transform.SetParent(oldSlot.transform);
         transform.position = oldSlot.transform.position;
         //Если мышка отпущена над объектом по имени UIPanel, то...
-        if (eventData.pointerCurrentRaycast.gameObject.name == "UIPanel")
+        if (eventData.pointerCurrentRaycast.gameObject.name == "UIBG")
         {
             // Выброс объектов из инвентаря - Спавним префаб обекта перед персонажем
             GameObject itemObject = Instantiate(oldSlot.item.itemPrefab, player.position + Vector3.up + player.forward, Quaternion.identity);
@@ -68,7 +68,7 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         }
        
     }
-    void NullifySlotData()
+    public void NullifySlotData()
     {
         // убираем значения InventorySlot
         oldSlot.item = null;
@@ -109,7 +109,7 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         oldSlot.amount = amount;
         if (isEmpty == false)
         {
-            oldSlot.SetIcon(iconGO.GetComponent<Image>().sprite);
+            oldSlot.SetIcon(item.icon);
             oldSlot.itemAmountText.text = amount.ToString();
         }
         else

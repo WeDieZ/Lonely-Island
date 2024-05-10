@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3340c6f1239aa854dbc985bb26b444cb, type: 3}
+  m_Name: Axe
+  m_EditorClassIdentifier: 
+  itemName: Axe
+  maximumAmount: 1
+  itemPrefab: {fileID: 481673808920236731, guid: 0b8104a5b6608bb4983f80079468ef52,
+    type: 3}
+  icon: {fileID: 21300000, guid: b2a210d6e5f06e247a5148596bb7a1f3, type: 3}
+  itemType: 2
+  itemDescription: 
+  isConsumeable: 0
+  changeHealth: 0
+  changeHunger: 0

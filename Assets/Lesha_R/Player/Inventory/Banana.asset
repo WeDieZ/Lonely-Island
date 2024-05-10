@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Banana
   m_EditorClassIdentifier: 
   itemName: Banana
-  maximumAmount: 55
+  maximumAmount: 30
   itemPrefab: {fileID: 1000012997751318, guid: 0550765fb22bb954ea0412b7153ff417, type: 3}
   icon: {fileID: 21300020, guid: 37607ec1aab56e349af84a980f685a4b, type: 3}
   itemType: 1
   itemDescription: 
-  healAmount: 0
+  isConsumeable: 1
+  changeHealth: 0
+  changeHunger: 15

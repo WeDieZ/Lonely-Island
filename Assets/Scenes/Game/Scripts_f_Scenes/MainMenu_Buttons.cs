@@ -14,4 +14,10 @@ public class MainMenu_Buttons : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void Update()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
 }

@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private float _fallVelocity = 0;
     private int can_jump = 1;
     public bool IsAbleToMove = true;
+    public GameObject _player;
 
     public Animator _animator;
     private CharacterController _characterController;
@@ -106,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
     public void Run()
     {
-        var food = GetComponent<HP_Food_Script>().food;
+        var food = _player.GetComponent<HP_Food_Script>().food;
 
         if (Input.GetKeyDown(KeyCode.LeftShift)  && food > 0)
         {

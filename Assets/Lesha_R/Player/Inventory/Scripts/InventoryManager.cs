@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    public GameObject UIPanel;
+    public GameObject UIBG;
     public GameObject crosshair;
     public Transform inventoryPanel;
     public List<InventorySlot> slots = new List<InventorySlot>();
@@ -16,7 +16,8 @@ public class InventoryManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        UIPanel.SetActive(true);
+        UIBG.SetActive(true);
+        inventoryPanel.gameObject.SetActive(true);
     }
     void Start()
     {
@@ -28,7 +29,8 @@ public class InventoryManager : MonoBehaviour
                 slots.Add(inventoryPanel.GetChild(i).GetComponent<InventorySlot>());
             }
         }
-        UIPanel.SetActive(false);
+        UIBG.SetActive(false);
+        inventoryPanel.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -40,7 +42,8 @@ public class InventoryManager : MonoBehaviour
             isOpened = !isOpened;
             if (isOpened)
             {
-                UIPanel.SetActive(true);
+                UIBG.SetActive(true);
+                inventoryPanel.gameObject.SetActive(true);
                 crosshair.SetActive(false);
                 // Прекрепляем курсор к середине экрана
                 Cursor.lockState = CursorLockMode.None;
@@ -50,7 +53,8 @@ public class InventoryManager : MonoBehaviour
             }
             else
             {
-                UIPanel.SetActive(false);
+                UIBG.SetActive(false);
+                inventoryPanel.gameObject.SetActive(false);
                 crosshair.SetActive(true);
                 // Прекрепляем курсор к середине экрана
                 Cursor.lockState = CursorLockMode.Locked;

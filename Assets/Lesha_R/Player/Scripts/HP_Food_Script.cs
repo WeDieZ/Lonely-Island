@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -9,12 +10,15 @@ public class HP_Food_Script : MonoBehaviour
     public float hp = 100;
     private float _maxHP;
     private float _maxFood;
-    public RectTransform valueRectTransformHP;
-    public RectTransform valueRectTransformFood;
 
+    public Text txtFood;
+    public Text txtHP;
+    public GameObject _quickSlots;
 
     void Start()
     {
+        StartCoroutine(ChangeCharacteristic());
+
         _maxHP = hp;
         DrawHP();
         _maxFood = food;
@@ -28,15 +32,36 @@ public class HP_Food_Script : MonoBehaviour
         {
             OnDead();
         }
+
+        if (food > 100)
+        {
+            food = _maxFood;
+        }
+
+        if (hp > 100)
+        {
+            hp = _maxHP;
+        }
     }
 
-    void FixedUpdate()
+    public IEnumerator ChangeCharacteristic()
     {
-        Hunger();
+        var waitTime = new WaitForSeconds(5);
 
-        if (food <= 0)
+        while (true)
         {
-            DealDamage_Hunger();
+            if (food > 0)
+            {
+                Hunger();
+            }
+
+            if (food <= 0)
+            {
+                food = 0;
+                DealDamage_Hunger();
+            }
+
+            yield return waitTime;
         }
     }
 
@@ -44,35 +69,44 @@ public class HP_Food_Script : MonoBehaviour
 
     public void DrawHP()
     {
-        valueRectTransformHP.anchorMax = new Vector2(hp / _maxHP, 1);
-    }
-
-    public void DealDamage()
-    {
-        hp -= 1 * Time.deltaTime;
-        DrawHP();
+        txtHP.text = hp.ToString();
     }
 
     public void OnDead()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene(0);
     }
 
     public void DrawFood()
     {
-        valueRectTransformFood.anchorMax = new Vector2(food / _maxFood, 1);
+        txtFood.text = food.ToString();
     }
 
     public void Hunger()
     {
-        food -= 0.05f;
+        food -= 1;
         DrawFood();
     }
 
     public void DealDamage_Hunger()
     {
-        hp -= 1 * Time.fixedDeltaTime;
+        hp -= 5;
         DrawHP();
+    }
+
+    public void WhenEat()
+    {
+        var _quickSlotsParent = _quickSlots.GetComponent<QuickslotInventory>().quickslotParent;
+        var _slotID = _quickSlots.GetComponent<QuickslotInventory>().currentQuickslotID;
+
+        food += _quickSlotsParent.GetChild(_slotID).GetComponent<InventorySlot>().item.changeHunger;
+
+        if (food > 100)
+        {
+            food = 100;
+        }
+
+        DrawFood();
     }
 
     //_decoding
