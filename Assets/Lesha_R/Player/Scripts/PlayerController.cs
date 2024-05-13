@@ -9,12 +9,16 @@ public class PlayerController : MonoBehaviour
     private float gravity = 9.8f;
     private float _fallVelocity = 0;
     private int can_jump = 1;
+
     public bool IsAbleToMove = true;
+
     public GameObject _player;
 
     public Animator _animator;
     private CharacterController _characterController;
     private Vector3 _VectorMove;
+    public InventoryManager inventoryManager;
+    public QuickslotInventory quickslotInventory;
 
     void Start()
     {
@@ -118,6 +122,31 @@ public class PlayerController : MonoBehaviour
         {
             speed = 2;
         }
+    }
+
+    public void MeleeAttackAnim()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (quickslotInventory.activeSlot != null)
+            {
+                if (quickslotInventory.activeSlot.item != null)
+                {
+                    if (quickslotInventory.activeSlot.item.itemType == ItemType.Weapon)
+                    {
+                        if (inventoryManager.isOpened == false)
+                        {
+                            _animator.SetBool("Hit", true);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            _animator.SetBool("Hit", false);
+        }    
     }
     //_decoding
 }

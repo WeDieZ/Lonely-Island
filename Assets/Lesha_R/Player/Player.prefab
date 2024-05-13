@@ -303,6 +303,8 @@ MonoBehaviour:
   IsAbleToMove: 1
   _player: {fileID: 1454756581658822919}
   _animator: {fileID: 3112681543878526343}
+  inventoryManager: {fileID: 214561371537514809}
+  quickslotInventory: {fileID: 4001741046737946019}
 --- !u!114 &1454756581658822916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1557,9 +1559,13 @@ MonoBehaviour:
   quickslotParent: {fileID: 3364009693587739758}
   inventoryManager: {fileID: 214561371537514809}
   currentQuickslotID: 0
-  _HPandFOOD: {fileID: 1345703551}
   selectedSprite: {fileID: 21300000, guid: 9c321c22356a74e4fbcee080e7e6dc59, type: 3}
   notSelectedSprite: {fileID: 21300000, guid: e38c14f4ff10c5740b2e8a8090310691, type: 3}
+  healthText: {fileID: 6528186700469077417}
+  itemContainer: {fileID: 0}
+  activeSlot: {fileID: 0}
+  allWeapons: {fileID: 8167294777730880432}
+  HP_and_FOOD: {fileID: 1345703551}
 --- !u!1 &8540696916373126561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,6 +2260,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human
       objectReference: {fileID: 0}
+    - target: {fileID: 5630759449777137245, guid: 60770bdb4dc667c45bea53db0339dc05,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7307189571169735067, guid: 60770bdb4dc667c45bea53db0339dc05,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7307189571169735067, guid: 60770bdb4dc667c45bea53db0339dc05,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7307189571169735067, guid: 60770bdb4dc667c45bea53db0339dc05,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
 --- !u!4 &560394350593584354 stripped
@@ -2265,6 +2291,12 @@ Transform:
 --- !u!95 &3112681543878526343 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 4540229000190281644, guid: 60770bdb4dc667c45bea53db0339dc05,
+    type: 3}
+  m_PrefabInstance: {fileID: 1454756581224710699}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8167294777730880432 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7307189571169735067, guid: 60770bdb4dc667c45bea53db0339dc05,
     type: 3}
   m_PrefabInstance: {fileID: 1454756581224710699}
   m_PrefabAsset: {fileID: 0}

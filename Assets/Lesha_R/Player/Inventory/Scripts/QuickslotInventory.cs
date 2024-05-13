@@ -10,9 +10,13 @@ public class QuickslotInventory : MonoBehaviour
     public Transform quickslotParent;
     public InventoryManager inventoryManager;
     public int currentQuickslotID = 0;
-    public HP_Food_Script _HPandFOOD;
     public Sprite selectedSprite;
     public Sprite notSelectedSprite;
+    public Text healthText;
+    public Transform itemContainer;
+    public InventorySlot activeSlot = null;
+    public Transform allWeapons;
+    public HP_Food_Script HP_and_FOOD;
 
     // Update is called once per frame
     void Update()
@@ -22,7 +26,10 @@ public class QuickslotInventory : MonoBehaviour
         if (mw > 0.1)
         {
             // Берем предыдущий слот и меняем его картинку на обычную
+
             quickslotParent.GetChild(currentQuickslotID).GetComponent<Image>().sprite = notSelectedSprite;
+            // Здесь добавляем что случится когда мы УБЕРАЕМ ВЫДЕЛЕНИЕ со слота (Выключить нужный нам предмет, поменять аниматор ...)
+
             // Если крутим колесиком мышки вперед и наше число currentQuickslotID равно последнему слоту, то выбираем наш первый слот (первый слот считается нулевым)
             if (currentQuickslotID >= quickslotParent.childCount - 1)
             {
@@ -34,14 +41,21 @@ public class QuickslotInventory : MonoBehaviour
                 currentQuickslotID++;
             }
             // Берем предыдущий слот и меняем его картинку на "выбранную"
+
             quickslotParent.GetChild(currentQuickslotID).GetComponent<Image>().sprite = selectedSprite;
-            // Что то делаем с предметом:
+            activeSlot = quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>();
+            ShowItemInHand();
+            // Здесь добавляем что случится когда мы ВЫДЕЛЯЕМ слот (Включить нужный нам предмет, поменять аниматор ...)
 
         }
         if (mw < -0.1)
         {
             // Берем предыдущий слот и меняем его картинку на обычную
+
             quickslotParent.GetChild(currentQuickslotID).GetComponent<Image>().sprite = notSelectedSprite;
+            // Здесь добавляем что случится когда мы УБЕРАЕМ ВЫДЕЛЕНИЕ со слота (Выключить нужный нам предмет, поменять аниматор ...)
+
+
             // Если крутим колесиком мышки назад и наше число currentQuickslotID равно 0, то выбираем наш последний слот
             if (currentQuickslotID <= 0)
             {
@@ -53,8 +67,11 @@ public class QuickslotInventory : MonoBehaviour
                 currentQuickslotID--;
             }
             // Берем предыдущий слот и меняем его картинку на "выбранную"
+
             quickslotParent.GetChild(currentQuickslotID).GetComponent<Image>().sprite = selectedSprite;
-            // Что то делаем с предметом:
+            activeSlot = quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>();
+            ShowItemInHand();
+            // Здесь добавляем что случится когда мы ВЫДЕЛЯЕМ слот (Включить нужный нам предмет, поменять аниматор ...)
 
         }
         // Используем цифры
@@ -70,27 +87,39 @@ public class QuickslotInventory : MonoBehaviour
                     if (quickslotParent.GetChild(currentQuickslotID).GetComponent<Image>().sprite == notSelectedSprite)
                     {
                         quickslotParent.GetChild(currentQuickslotID).GetComponent<Image>().sprite = selectedSprite;
+                        activeSlot = quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>();
+                        ShowItemInHand();
+                        //foreach ...
                     }
                     else
                     {
                         quickslotParent.GetChild(currentQuickslotID).GetComponent<Image>().sprite = notSelectedSprite;
+                        activeSlot = null;
+                        HideItemsInHand();
+                        //foreach ...
+
                     }
                 }
                 // Иначе мы убираем свечение с предыдущего слота и светим слот который мы выбираем
                 else
                 {
                     quickslotParent.GetChild(currentQuickslotID).GetComponent<Image>().sprite = notSelectedSprite;
+                    // ЗДЕСЬ ТЕБЕ НУЖЕН FOREACH ЦИКЛ КОТОРЫЙ БУДЕТ ВЫКЛЮЧАТЬ ВСЕ ОБЪЕКТЫ В МАССИВЕ ITEMS
                     currentQuickslotID = i;
+
                     quickslotParent.GetChild(currentQuickslotID).GetComponent<Image>().sprite = selectedSprite;
+                    activeSlot = quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>();
+                    ShowItemInHand();
+                    // СЮДА СКОПИРУЙ ТО ЧТО ТЫ ПИСАЛ КОГДА ВКЛЮЧАЛ КАЛАШ <--
                 }
             }
         }
         // Используем предмет по нажатию на левую кнопку мыши
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             if (quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>().item != null)
             {
-                if (quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>().item.isConsumeable && quickslotParent.GetChild(currentQuickslotID).GetComponent<Image>().sprite == selectedSprite && inventoryManager.isOpened != true)
+                if (quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>().item.isConsumeable && !inventoryManager.isOpened && quickslotParent.GetChild(currentQuickslotID).GetComponent<Image>().sprite == selectedSprite)
                 {
                     // Применяем изменения к здоровью (будущем к голоду и жажде) 
                     ChangeCharacteristics();
@@ -101,7 +130,7 @@ public class QuickslotInventory : MonoBehaviour
                     }
                     else
                     {
-                        quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>().amount -= 1;
+                        quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>().amount--;
                         quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>().itemAmountText.text = quickslotParent.GetChild(currentQuickslotID).GetComponent<InventorySlot>().amount.ToString();
                     }
                 }
@@ -109,8 +138,31 @@ public class QuickslotInventory : MonoBehaviour
         }
     }
 
-    public void ChangeCharacteristics()
+    private void ChangeCharacteristics()
     {
-        _HPandFOOD.WhenEat();
+        HP_and_FOOD.WhenEat();
+    }
+
+    private void ShowItemInHand()
+    {
+        HideItemsInHand();
+        if (activeSlot.item == null)
+        {
+            return;
+        }
+        for (int i = 0; i < allWeapons.childCount; i++)
+        {
+            if (activeSlot.item.inHandName == allWeapons.GetChild(i).name)
+            {
+                allWeapons.GetChild(i).gameObject.SetActive(true);
+            }
+        }
+    }
+    private void HideItemsInHand()
+    {
+        for (int i = 0; i < allWeapons.childCount; i++)
+        {
+            allWeapons.GetChild(i).gameObject.SetActive(false);
+        }
     }
 }

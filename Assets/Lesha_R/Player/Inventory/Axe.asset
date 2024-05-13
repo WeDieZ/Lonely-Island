@@ -20,5 +20,6 @@ MonoBehaviour:
   itemType: 2
   itemDescription: 
   isConsumeable: 0
+  inHandName: Axe
   changeHealth: 0
   changeHunger: 0
