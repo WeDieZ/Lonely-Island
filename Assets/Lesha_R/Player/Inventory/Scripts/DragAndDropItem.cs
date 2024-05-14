@@ -11,9 +11,11 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 {
     public InventorySlot oldSlot;
     private Transform player;
+    private QuickslotInventory quickslotInventory;
 
     private void Start()
     {
+        quickslotInventory = FindObjectOfType<QuickslotInventory>();
         //ПОСТАВЬТЕ ТЭГ "PLAYER" НА ОБЪЕКТЕ ПЕРСОНАЖА!
         player = GameObject.FindGameObjectWithTag("Player").transform;
         // Находим скрипт InventorySlot в слоте в иерархии
@@ -60,13 +62,15 @@ public class DragAndDropItem : MonoBehaviour, IPointerDownHandler, IPointerUpHan
             itemObject.GetComponent<Item>().amount = oldSlot.amount;
             // убираем значения InventorySlot
             NullifySlotData();
+            quickslotInventory.CheckItemInHand();
         }
         else if(eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>() != null)
         {
             //Перемещаем данные из одного слота в другой
             ExchangeSlotData(eventData.pointerCurrentRaycast.gameObject.transform.parent.parent.GetComponent<InventorySlot>());
+            quickslotInventory.CheckItemInHand();
         }
-       
+
     }
     public void NullifySlotData()
     {

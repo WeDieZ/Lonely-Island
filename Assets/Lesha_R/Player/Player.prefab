@@ -124,7 +124,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Pause_Menu: {fileID: 5738511376239461485}
   _player: {fileID: 1454756581658822919}
-  activity: {fileID: 1454756581658822917}
 --- !u!1 &1054616888737231572
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +246,7 @@ MonoBehaviour:
   UIBG: {fileID: 686247475635634870}
   crosshair: {fileID: 4648973560616728345}
   inventoryPanel: {fileID: 8877783478070158903}
+  quickslotPanel: {fileID: 3364009693587739758}
   slots: []
   isOpened: 0
   reachDistance: 3
@@ -319,8 +319,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotationSpeed: 500
   CameraAxisTransform: {fileID: 1454756582494002829}
-  minAngle: -50
-  maxAngle: 50
+  minAngle: -75
+  maxAngle: 75
 --- !u!143 &1454756581658822923
 CharacterController:
   m_ObjectHideFlags: 0
@@ -352,8 +352,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pause_Menu: {fileID: 5738511376239461485}
-  activity: {fileID: 1454756581658822917}
-  _player: {fileID: 1454756581658822919}
   _pause_open: 0
 --- !u!114 &1345703551
 MonoBehaviour:
@@ -398,7 +396,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1454756582054754049}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.316, z: 0.18}
+  m_LocalPosition: {x: 0, y: 0.019, z: 0.087}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1454756582494002829}
@@ -2259,26 +2257,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Human
-      objectReference: {fileID: 0}
-    - target: {fileID: 5630759449777137245, guid: 60770bdb4dc667c45bea53db0339dc05,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7307189571169735067, guid: 60770bdb4dc667c45bea53db0339dc05,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7307189571169735067, guid: 60770bdb4dc667c45bea53db0339dc05,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7307189571169735067, guid: 60770bdb4dc667c45bea53db0339dc05,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}

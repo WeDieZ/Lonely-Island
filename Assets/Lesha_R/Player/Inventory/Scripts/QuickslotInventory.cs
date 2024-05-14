@@ -138,6 +138,18 @@ public class QuickslotInventory : MonoBehaviour
         }
     }
 
+    public void CheckItemInHand()
+    {
+        if (activeSlot != null)
+        {
+            ShowItemInHand();
+        }
+        else
+        {
+            HideItemsInHand();
+        }
+    }
+
     private void ChangeCharacteristics()
     {
         HP_and_FOOD.WhenEat();

@@ -7,6 +7,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject UIBG;
     public GameObject crosshair;
     public Transform inventoryPanel;
+    public Transform quickslotPanel;
     public List<InventorySlot> slots = new List<InventorySlot>();
     public bool isOpened;
     public float reachDistance = 3f;
@@ -22,6 +23,7 @@ public class InventoryManager : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
+
         for(int i = 0; i < inventoryPanel.childCount; i++)
         {
             if(inventoryPanel.GetChild(i).GetComponent<InventorySlot>() != null)
@@ -29,6 +31,15 @@ public class InventoryManager : MonoBehaviour
                 slots.Add(inventoryPanel.GetChild(i).GetComponent<InventorySlot>());
             }
         }
+
+        for (int i = 0; i < quickslotPanel.childCount; i++)
+        {
+            if (quickslotPanel.GetChild(i).GetComponent<InventorySlot>() != null)
+            {
+                slots.Add(quickslotPanel.GetChild(i).GetComponent<InventorySlot>());
+            }
+        }
+
         UIBG.SetActive(false);
         inventoryPanel.gameObject.SetActive(false);
     }
