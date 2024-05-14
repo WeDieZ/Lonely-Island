@@ -36,6 +36,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        MeleeAttackAnim();
+
         Jump();
 
         Walk_Move();
