@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
 guid: 51d54402f1790e74580566181ea896f1
 TextureImporter:
   internalIDToNameTable: []
@@ -106,3 +107,6 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+=======
+guid: baaa6f7bf09f2f44c914775aaaea4eb3
+>>>>>>> Stashed changes
