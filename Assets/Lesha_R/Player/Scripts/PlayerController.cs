@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -149,6 +150,14 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("Hit", false);
         }    
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Dead")
+        {
+            SceneManager.LoadScene('0');
+        }
     }
     //_decoding
 }

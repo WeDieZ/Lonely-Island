@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Game/MainMenu.unity
     guid: 81a8f8deba69b67408bc2992b0ca2985
   - enabled: 1
-    path: Assets/Scenes/Lesha_R.unity
+    path: Assets/Scenes/Game/Game.unity
     guid: 83cdade0fec4f7344be538780150a0b4
   m_configObjects: {}
